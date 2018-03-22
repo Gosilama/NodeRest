@@ -2,22 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const errorhandler = require('errorhandler');
 const handlerr = require('./lib/errorhandler')
-const mongoose = require('mongoose');
+var dbCon = require('./config/dbConnect');
 
 const routes = require('./routes/api');
 
 // set up
 const app = express();
 
-// connect to db
-mongoose.connect('mongodb://localhost/ninjago');
-mongoose.Promise = global.Promise;
-
-// Get the default connection
-var db = mongoose.connection;
-
 //bind connection to error event(to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+dbCon.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json());
 
